@@ -1,0 +1,65 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.nutrition-panel {
+  background: $color-surface;
+  padding: $spacing-xl;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+
+  @include mobile {
+    padding: $spacing-lg;
+  }
+}
+
+.nutrition-panel__title {
+  font-size: $font-size-xl;
+  margin: 0 0 $spacing-lg;
+  color: $color-text;
+}
+
+.nutrition-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.nutrition-item {
+  @include flex-between;
+  padding: $spacing-md;
+  background: $color-background-alt;
+  border-radius: $radius-md;
+}
+
+.nutrition-item__label {
+  font-weight: $font-weight-semibold;
+  color: $color-text-muted;
+}
+
+.nutrition-item__value {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.nutrition-panel__result {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background: $color-background-alt;
+  border-radius: $radius-md;
+  border-left: 4px solid $color-success;
+}
+
+.result-text {
+  font-size: $font-size-sm;
+  margin: $spacing-xs 0;
+
+  &--success {
+    color: $color-success;
+  }
+
+  &--warning {
+    color: $color-warning;
+  }
+}
+

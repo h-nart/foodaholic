@@ -1,0 +1,2 @@
+export { IngredientsPanel } from './IngredientsPanel';
+

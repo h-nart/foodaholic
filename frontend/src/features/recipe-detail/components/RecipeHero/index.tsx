@@ -1,0 +1,2 @@
+export { RecipeHero } from './RecipeHero';
+

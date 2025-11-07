@@ -1,0 +1,41 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.search-page {
+  min-height: 100vh;
+  background-color: $color-background-alt;
+}
+
+.search-page__header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  color: white;
+  padding: $spacing-xl 0;
+  box-shadow: $shadow-md;
+}
+
+.search-page__logo {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  margin: 0;
+  text-align: center;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.search-page__main {
+  padding: $spacing-2xl 0;
+
+  @include mobile {
+    padding: $spacing-lg 0;
+  }
+}
+
+.search-page__search-section {
+  margin-bottom: $spacing-2xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+

@@ -1,0 +1,51 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.search-bar {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-bar__input {
+  width: 100%;
+  padding: $spacing-lg $spacing-xl $spacing-lg $spacing-3xl;
+  font-size: $font-size-lg;
+  border: 2px solid $color-border;
+  border-radius: $radius-2xl;
+  background: $color-surface;
+  transition: all $transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $color-text-light;
+  }
+
+  @include mobile {
+    padding: $spacing-md $spacing-lg $spacing-md $spacing-2xl;
+    font-size: $font-size-base;
+  }
+}
+
+.search-bar__icon {
+  position: absolute;
+  left: $spacing-lg;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  color: $color-text-muted;
+  pointer-events: none;
+
+  @include mobile {
+    left: $spacing-md;
+    width: 20px;
+    height: 20px;
+  }
+}
+

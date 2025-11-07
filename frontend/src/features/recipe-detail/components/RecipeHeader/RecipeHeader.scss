@@ -1,0 +1,132 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.recipe-header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  color: white;
+  padding: $spacing-lg 0;
+  box-shadow: $shadow-md;
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+}
+
+.recipe-header__content {
+  @include flex-between;
+  gap: $spacing-md;
+}
+
+.recipe-header__back-button {
+  @include button-reset;
+  @include flex-center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-lg;
+  color: white;
+  font-weight: $font-weight-semibold;
+  transition: all $transition-fast;
+  min-height: 44px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+.recipe-header__logo {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  margin: 0;
+
+  @include mobile {
+    font-size: $font-size-lg;
+  }
+}
+
+.recipe-header__search {
+  min-width: 44px;
+}
+
+.search-toggle-button {
+  @include button-reset;
+  @include flex-center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-lg;
+  color: white;
+  transition: all $transition-fast;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+.mini-search-form {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.mini-search-input {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: $font-size-sm;
+  min-width: 200px;
+
+  @include mobile {
+    min-width: 150px;
+  }
+
+  &:focus {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+
+.mini-search-submit {
+  @include button-reset;
+  @include flex-center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-lg;
+  color: white;
+  transition: all $transition-fast;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+}
+

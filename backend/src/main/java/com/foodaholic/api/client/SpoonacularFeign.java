@@ -20,8 +20,8 @@ public interface SpoonacularFeign {
 
     @GetMapping("/recipes/complexSearch")
     SpoonacularSearchResponse complexSearch(@RequestParam String query,
-                                            @RequestParam boolean addRecipeInformation,
-                                            @RequestParam boolean instructionsRequired,
+                                            @RequestParam(required = false) boolean addRecipeInformation,
+                                            @RequestParam(required = false) boolean instructionsRequired,
                                             @RequestParam(required = false) String diet,
                                             @RequestParam(required = false) String intolerances,
                                             @RequestParam(required = false) String cuisine,

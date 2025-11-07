@@ -2,23 +2,19 @@ package com.foodaholic.api.model.spoonacular;
 
 import java.util.List;
 
-import lombok.Data;
-
-@Data
-public class SpoonacularSearchResponse {
-    @Data
-    public static class Result {
-        private long id;
-        private String title;
-        private String image;
-        private Integer readyInMinutes;
-        private Integer servings;
-        private List<String> cuisines;
-        private List<String> dishTypes;
-    }
-
-    private int offset;
-    private int number;
-    private int totalResults;
-    private List<Result> results;
+public record SpoonacularSearchResponse(
+    int offset,
+    int number,
+    int totalResults,
+    List<Result> results
+) {
+    public record Result(
+        long id,
+        String title,
+        String image,
+        Integer readyInMinutes,
+        Integer servings,
+        List<String> cuisines,
+        List<String> dishTypes
+    ) {}
 }

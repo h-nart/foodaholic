@@ -18,8 +18,9 @@ public class RecipeSearchRequest {
     @Min(1)
     private Integer maxReadyTime;
     @Min(0)
+    @Max(900)
     private Integer offset = 0;
     @Min(1)
     @Max(100)
-    private Integer number = 12;
+    private Integer number = 10;
 }

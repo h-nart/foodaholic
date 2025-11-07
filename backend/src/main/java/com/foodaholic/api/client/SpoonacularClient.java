@@ -20,18 +20,18 @@ public class SpoonacularClient {
 
     public SpoonacularSearchResponse searchRecipes(RecipeSearchRequest request) {
         return feign.complexSearch(
-            request.getQuery(),
+            request.query(),
             true,
             true,
-            StringUtils.hasText(request.getDiet()) ? request.getDiet() : null,
-            StringUtils.hasText(request.getIntolerances()) ? request.getIntolerances() : null,
-            StringUtils.hasText(request.getCuisine()) ? request.getCuisine() : null,
-            StringUtils.hasText(request.getIncludeIngredients()) ? request.getIncludeIngredients() : null,
-            StringUtils.hasText(request.getExcludeIngredients()) ? request.getExcludeIngredients() : null,
-            StringUtils.hasText(request.getType()) ? request.getType() : null,
-            request.getMaxReadyTime(),
-            request.getOffset(),
-            request.getNumber()
+            StringUtils.hasText(request.diet()) ? request.diet() : null,
+            StringUtils.hasText(request.intolerances()) ? request.intolerances() : null,
+            StringUtils.hasText(request.cuisine()) ? request.cuisine() : null,
+            StringUtils.hasText(request.includeIngredients()) ? request.includeIngredients() : null,
+            StringUtils.hasText(request.excludeIngredients()) ? request.excludeIngredients() : null,
+            StringUtils.hasText(request.type()) ? request.type() : null,
+            request.maxReadyTime(),
+            request.offset(),
+            request.number()
         );
     }
 

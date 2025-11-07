@@ -1,0 +1,133 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  background: $color-surface;
+  border-radius: $radius-xl;
+  overflow: hidden;
+  box-shadow: $shadow-md;
+  transition: all $transition-base;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-xl;
+  }
+
+  &:focus-visible {
+    outline: 3px solid $color-primary;
+    outline-offset: 2px;
+  }
+}
+
+.recipe-card__image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 75%; // 4:3 aspect ratio
+  background-color: $color-background-alt;
+  overflow: hidden;
+}
+
+.recipe-card__image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $transition-slow;
+
+  .recipe-card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.recipe-card__content {
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  flex: 1;
+}
+
+.recipe-card__title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text;
+  margin: 0;
+  line-height: $line-height-tight;
+  @include line-clamp(2);
+}
+
+.recipe-card__meta {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.recipe-card__badge {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  background-color: $color-background-alt;
+  border-radius: $radius-full;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  font-weight: $font-weight-medium;
+
+  &--time {
+    color: $color-primary;
+  }
+
+  &--servings {
+    color: $color-secondary;
+  }
+}
+
+.recipe-card__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.recipe-card__tags {
+  display: flex;
+  gap: $spacing-xs;
+  flex-wrap: wrap;
+}
+
+.recipe-card__tag {
+  padding: $spacing-xs $spacing-sm;
+  background-color: $color-primary-light;
+  color: white;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recipe-card__dish-types {
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  margin-top: auto;
+}
+
+.recipe-card__dish-type {
+  text-transform: capitalize;
+}
+
+@include mobile {
+  .recipe-card__content {
+    padding: $spacing-md;
+  }
+
+  .recipe-card__title {
+    font-size: $font-size-base;
+  }
+}
+

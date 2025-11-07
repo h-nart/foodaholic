@@ -1,0 +1,107 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.error-boundary {
+  min-height: 100vh;
+  @include flex-center;
+  padding: $spacing-xl;
+  background-color: $color-background-alt;
+}
+
+.error-boundary__content {
+  max-width: 600px;
+  text-align: center;
+  background: $color-surface;
+  padding: $spacing-3xl;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-lg;
+
+  @include mobile {
+    padding: $spacing-xl;
+  }
+}
+
+.error-boundary__title {
+  color: $color-error;
+  margin-bottom: $spacing-lg;
+  font-size: $font-size-3xl;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.error-boundary__message {
+  color: $color-text;
+  margin-bottom: $spacing-xl;
+  line-height: $line-height-relaxed;
+}
+
+.error-boundary__details {
+  text-align: left;
+  margin: $spacing-xl 0;
+  padding: $spacing-md;
+  background-color: $color-background-alt;
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+
+  summary {
+    cursor: pointer;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-sm;
+    color: $color-text-muted;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+
+  pre {
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    background: $color-surface;
+    border-radius: $radius-sm;
+    overflow-x: auto;
+    font-size: $font-size-sm;
+    color: $color-error;
+  }
+}
+
+.error-boundary__actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-boundary__button {
+  padding: $spacing-md $spacing-xl;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-lg;
+  border: none;
+  cursor: pointer;
+  transition: all $transition-fast;
+  min-width: 120px;
+  background-color: $color-primary;
+  color: white;
+
+  &:hover {
+    background-color: $color-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &--secondary {
+    background-color: $color-secondary;
+
+    &:hover {
+      background-color: $color-secondary-dark;
+    }
+  }
+}
+

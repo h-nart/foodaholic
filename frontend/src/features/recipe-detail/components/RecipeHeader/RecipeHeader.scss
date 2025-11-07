@@ -120,13 +120,18 @@
     height: 16px;
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.3);
   }
 
   &:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
   }
 }
 

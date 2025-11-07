@@ -55,7 +55,12 @@ export const RecipeHeader: React.FC = () => {
                   autoFocus
                   aria-label="Search for recipes"
                 />
-                <button type="submit" className="mini-search-submit" aria-label="Submit search">
+                <button
+                  type="submit"
+                  className="mini-search-submit"
+                  aria-label="Submit search"
+                  disabled={!miniSearchQuery.trim()}
+                >
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"

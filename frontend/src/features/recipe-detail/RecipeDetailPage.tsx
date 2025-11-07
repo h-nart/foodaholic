@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RecipeHeader, RecipeHero, NutritionPanel, IngredientsPanel } from './components';
+import { RecipeHeader, RecipeHero, RecipeContent, NutritionPanel, IngredientsPanel } from './components';
 import { useNutritionCalculator } from './hooks';
 import './RecipeDetailPage.scss';
 
@@ -56,22 +56,24 @@ export const RecipeDetailPage: React.FC = () => {
             image={recipe.image}
             readyInMinutes={recipe.readyInMinutes}
             servings={recipe.servings}
-            summary={recipe.summary}
-            instructions={recipe.instructions}
           />
 
-          <aside className="recipe-sidebar">
-            <NutritionPanel nutrition={recipe.nutrition} recalculationResult={recalculationResult} />
+          <div className="recipe-detail-content">
+            <RecipeContent summary={recipe.summary} instructions={recipe.instructions} />
 
-            <IngredientsPanel
-              ingredients={recipe.extendedIngredients}
-              excludedIds={excludedIngredientIds}
-              onToggleExclude={onToggleExclude}
-              onClearExcluded={onClearExcluded}
-              onRecalculate={onRecalculate}
-              isRecalculating={recalculatingNutrition}
-            />
-          </aside>
+            <aside className="recipe-sidebar">
+              <NutritionPanel nutrition={recipe.nutrition} recalculationResult={recalculationResult} />
+
+              <IngredientsPanel
+                ingredients={recipe.extendedIngredients}
+                excludedIds={excludedIngredientIds}
+                onToggleExclude={onToggleExclude}
+                onClearExcluded={onClearExcluded}
+                onRecalculate={onRecalculate}
+                isRecalculating={recalculatingNutrition}
+              />
+            </aside>
+          </div>
         </div>
       </main>
     </div>

@@ -12,16 +12,16 @@
   @include mobile {
     padding: $spacing-lg 0;
   }
+}
 
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: $spacing-2xl;
-    align-items: start;
+.recipe-detail-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: $spacing-2xl;
+  align-items: start;
 
-    @include max-width($breakpoint-lg) {
-      grid-template-columns: 1fr;
-    }
+  @include max-width($breakpoint-lg) {
+    grid-template-columns: 1fr;
   }
 }
 

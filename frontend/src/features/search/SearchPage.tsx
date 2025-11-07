@@ -19,10 +19,6 @@ export const SearchPage: React.FC = () => {
 
   return (
     <div className="search-page">
-      <a href="#main-content" className="skip-link">
-        Skip to main content
-      </a>
-
       <header className="search-page__header">
         <div className="container">
           <h1 className="search-page__logo">

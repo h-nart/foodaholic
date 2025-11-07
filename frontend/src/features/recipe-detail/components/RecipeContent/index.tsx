@@ -1,0 +1,2 @@
+export { RecipeContent } from './RecipeContent';
+

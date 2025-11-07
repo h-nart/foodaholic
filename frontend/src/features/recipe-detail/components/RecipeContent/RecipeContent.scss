@@ -1,0 +1,58 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.recipe-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.recipe-section {
+  background: $color-surface;
+  padding: $spacing-xl;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+
+  @include mobile {
+    padding: $spacing-lg;
+  }
+}
+
+.recipe-section__title {
+  font-size: $font-size-2xl;
+  margin: 0 0 $spacing-lg;
+  color: $color-text;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $color-border;
+}
+
+.recipe-summary,
+.recipe-instructions {
+  color: $color-text;
+  line-height: $line-height-relaxed;
+
+  p {
+    margin-bottom: $spacing-md;
+  }
+
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+
+    &:hover {
+      color: $color-primary-dark;
+    }
+  }
+
+  ol,
+  ul {
+    list-style: decimal;
+    list-style-position: inside;
+    margin-bottom: $spacing-md;
+  }
+
+  li {
+    margin-bottom: $spacing-sm;
+  }
+}
+

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { searchRecipes, loadMoreRecipes, updateFilters, resetSearch } from '../../../store/recipesSlice';
 import { addToast } from '../../../store/uiSlice';
@@ -8,11 +9,14 @@ import type { FilterValues } from '../components';
 
 export const useRecipeSearch = () => {
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
   const { results, loading, loadingMore, error, filters, hasMore } = useAppSelector(
     (state) => state.recipes
   );
 
-  const [searchQuery, setSearchQuery] = useState(filters.query);
+  // Get initial query from URL params or Redux state
+  const urlQuery = searchParams.get('q') || '';
+  const [searchQuery, setSearchQuery] = useState(urlQuery || filters.query);
   const [filterValues, setFilterValues] = useState<FilterValues>({
     diet: 'any',
     cuisine: 'any',
@@ -24,6 +28,14 @@ export const useRecipeSearch = () => {
   });
 
   const debouncedQuery = useDebounce(searchQuery, 500);
+
+  // Initialize search query from URL on mount
+  useEffect(() => {
+    const queryFromUrl = searchParams.get('q');
+    if (queryFromUrl && queryFromUrl !== searchQuery) {
+      setSearchQuery(queryFromUrl);
+    }
+  }, [searchParams]);
 
   // Infinite scroll
   const sentinelRef = useInfiniteScroll({

@@ -1,0 +1,206 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.recipe-details {
+  background: $color-surface;
+  border-radius: $radius-xl;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+
+  @include mobile {
+    padding: $spacing-lg;
+  }
+}
+
+.recipe-details__title {
+  font-size: $font-size-2xl;
+  font-weight: 700;
+  margin: 0 0 $spacing-lg;
+  color: $color-text;
+}
+
+.recipe-details__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: $spacing-xs;
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-background-alt;
+    border-radius: $radius-sm;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-border;
+    border-radius: $radius-sm;
+
+    &:hover {
+      background: $color-text-muted;
+    }
+  }
+
+  // Firefox scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: $color-border $color-background-alt;
+}
+
+.ingredient-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $color-background-alt;
+  border-radius: $radius-md;
+  transition: all $transition-fast;
+  position: relative;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.02);
+
+    .ingredient-delete,
+    .ingredient-restore {
+      opacity: 1;
+    }
+  }
+
+  &--excluded {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.ingredient-text {
+  flex: 1;
+  color: $color-text;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+
+  &--excluded {
+    text-decoration: line-through;
+    color: $color-text-muted;
+  }
+}
+
+.ingredient-delete,
+.ingredient-restore {
+  @include button-reset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $color-text-muted;
+  cursor: pointer;
+  transition: all $transition-fast;
+  flex-shrink: 0;
+  opacity: 0.6;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+    opacity: 1;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  @include mobile {
+    opacity: 1;
+  }
+}
+
+.ingredient-delete {
+  &:hover:not(:disabled) {
+    background: rgba($color-error, 0.1);
+    color: $color-error;
+    opacity: 1;
+  }
+}
+
+.ingredient-restore {
+  &:hover:not(:disabled) {
+    background: rgba($color-success, 0.1);
+    color: $color-success;
+    opacity: 1;
+  }
+}
+
+.calorie-info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  background: $color-background;
+  border-radius: $radius-md;
+  border: 2px solid $color-border;
+}
+
+.calorie-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &--secondary {
+    padding-top: $spacing-sm;
+    border-top: 1px solid $color-border;
+
+    .calorie-label {
+      font-size: $font-size-base;
+      font-weight: 500;
+    }
+
+    .calorie-value {
+      font-size: $font-size-lg;
+      font-weight: 600;
+      color: $color-text-muted;
+    }
+  }
+}
+
+.calorie-label {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.calorie-value {
+  font-size: $font-size-2xl;
+  font-weight: 700;
+  color: $color-primary;
+}
+
+.calorie-loading {
+  font-size: $font-size-base;
+  font-weight: 500;
+  color: $color-text-muted;
+  font-style: italic;
+}
+

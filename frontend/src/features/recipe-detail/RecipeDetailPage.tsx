@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RecipeHeader, RecipeHero, RecipeContent, NutritionPanel, IngredientsPanel } from './components';
+import { RecipeHeader, RecipeHero, RecipeContent, RecipeDetails } from './components';
 import { useNutritionCalculator } from './hooks';
 import './RecipeDetailPage.scss';
 
@@ -11,10 +11,8 @@ export const RecipeDetailPage: React.FC = () => {
     loading,
     excludedIngredientIds,
     recalculatingNutrition,
-    recalculationResult,
-    onToggleExclude,
-    onClearExcluded,
-    onRecalculate,
+    onRemoveIngredient,
+    onRestoreIngredient,
   } = useNutritionCalculator();
 
   if (loading) {
@@ -62,14 +60,12 @@ export const RecipeDetailPage: React.FC = () => {
             <RecipeContent summary={recipe.summary} instructions={recipe.instructions} />
 
             <aside className="recipe-sidebar">
-              <NutritionPanel nutrition={recipe.nutrition} recalculationResult={recalculationResult} />
-
-              <IngredientsPanel
+              <RecipeDetails
                 ingredients={recipe.extendedIngredients}
+                nutrition={recipe.nutrition}
                 excludedIds={excludedIngredientIds}
-                onToggleExclude={onToggleExclude}
-                onClearExcluded={onClearExcluded}
-                onRecalculate={onRecalculate}
+                onRemoveIngredient={onRemoveIngredient}
+                onRestoreIngredient={onRestoreIngredient}
                 isRecalculating={recalculatingNutrition}
               />
             </aside>

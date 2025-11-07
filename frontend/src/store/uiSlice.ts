@@ -5,6 +5,11 @@ export interface Toast {
   title: string;
   description?: string;
   type: 'success' | 'error' | 'info' | 'warning';
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+  duration?: number;
 }
 
 interface UIState {

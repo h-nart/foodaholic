@@ -27,11 +27,9 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-xl;
   padding: $spacing-lg;
-  display: grid;
-  grid-template-areas: "title close" "description close";
-  grid-template-columns: 1fr auto;
-  gap: $spacing-sm $spacing-md;
+  display: flex;
   align-items: start;
+  gap: $spacing-md;
   border-left: 4px solid $color-info;
 
   &[data-state='open'] {
@@ -72,8 +70,14 @@
   }
 }
 
+.toast__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
 .toast__title {
-  grid-area: title;
   font-weight: $font-weight-semibold;
   color: $color-text;
   font-size: $font-size-base;
@@ -81,15 +85,44 @@
 }
 
 .toast__description {
-  grid-area: description;
   margin: 0;
   color: $color-text-muted;
   font-size: $font-size-sm;
   line-height: $line-height-normal;
 }
 
+.toast__actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-shrink: 0;
+}
+
+.toast__action {
+  @include button-reset;
+  padding: $spacing-xs $spacing-sm;
+  background-color: $color-primary;
+  color: white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
+  transition: all $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
 .toast__close {
-  grid-area: close;
   @include button-reset;
   width: 24px;
   height: 24px;

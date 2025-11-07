@@ -1,2 +1,0 @@
-export { NutritionPanel } from './NutritionPanel';
-

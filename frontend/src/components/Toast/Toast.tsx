@@ -25,6 +25,11 @@ interface ToastItemProps {
     title: string;
     description?: string;
     type: 'success' | 'error' | 'info' | 'warning';
+    action?: {
+      label: string;
+      onClick: () => void;
+    };
+    duration?: number;
   };
   onClose: () => void;
 }
@@ -33,18 +38,36 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 5000);
+    }, toast.duration || 5000);
 
     return () => clearTimeout(timer);
-  }, [onClose]);
+  }, [onClose, toast.duration]);
+
+  const handleActionClick = () => {
+    if (toast.action) {
+      toast.action.onClick();
+      onClose();
+    }
+  };
 
   return (
     <RadixToast.Root className={`toast toast--${toast.type}`} onOpenChange={(open) => !open && onClose()}>
-      <RadixToast.Title className="toast__title">{toast.title}</RadixToast.Title>
-      {toast.description && <RadixToast.Description className="toast__description">{toast.description}</RadixToast.Description>}
-      <RadixToast.Close className="toast__close" aria-label="Close">
-        <span aria-hidden="true">×</span>
-      </RadixToast.Close>
+      <div className="toast__content">
+        <RadixToast.Title className="toast__title">{toast.title}</RadixToast.Title>
+        {toast.description && (
+          <RadixToast.Description className="toast__description">{toast.description}</RadixToast.Description>
+        )}
+      </div>
+      <div className="toast__actions">
+        {toast.action && (
+          <RadixToast.Action className="toast__action" altText={toast.action.label} onClick={handleActionClick}>
+            {toast.action.label}
+          </RadixToast.Action>
+        )}
+        <RadixToast.Close className="toast__close" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </RadixToast.Close>
+      </div>
     </RadixToast.Root>
   );
 };

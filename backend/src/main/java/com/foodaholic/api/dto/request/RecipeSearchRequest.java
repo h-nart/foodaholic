@@ -1,4 +1,4 @@
-package com.foodaholic.api.model.request;
+package com.foodaholic.api.dto.request;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

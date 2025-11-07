@@ -4,10 +4,10 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import com.foodaholic.api.model.request.RecipeSearchRequest;
-import com.foodaholic.api.model.spoonacular.SpoonacularParsedIngredient;
-import com.foodaholic.api.model.spoonacular.SpoonacularRecipeInformation;
-import com.foodaholic.api.model.spoonacular.SpoonacularSearchResponse;
+import com.foodaholic.api.dto.request.RecipeSearchRequest;
+import com.foodaholic.api.dto.spoonacular.SpoonacularParsedIngredient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
+import com.foodaholic.api.dto.spoonacular.SpoonacularSearchResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import lombok.RequiredArgsConstructor;

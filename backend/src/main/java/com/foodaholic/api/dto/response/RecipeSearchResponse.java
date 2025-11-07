@@ -1,4 +1,4 @@
-package com.foodaholic.api.model.response;
+package com.foodaholic.api.dto.response;
 
 import java.util.List;
 

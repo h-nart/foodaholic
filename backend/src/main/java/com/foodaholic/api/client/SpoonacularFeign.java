@@ -2,9 +2,9 @@ package com.foodaholic.api.client;
 
 import java.util.List;
 
-import com.foodaholic.api.model.spoonacular.SpoonacularParsedIngredient;
-import com.foodaholic.api.model.spoonacular.SpoonacularRecipeInformation;
-import com.foodaholic.api.model.spoonacular.SpoonacularSearchResponse;
+import com.foodaholic.api.dto.spoonacular.SpoonacularParsedIngredient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
+import com.foodaholic.api.dto.spoonacular.SpoonacularSearchResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

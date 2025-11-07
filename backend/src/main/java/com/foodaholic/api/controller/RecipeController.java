@@ -1,10 +1,10 @@
 package com.foodaholic.api.controller;
 
-import com.foodaholic.api.model.request.RecalculateNutritionRequest;
-import com.foodaholic.api.model.request.RecipeSearchRequest;
-import com.foodaholic.api.model.response.RecalculateNutritionResponse;
-import com.foodaholic.api.model.response.RecipeDetailResponse;
-import com.foodaholic.api.model.response.RecipeSearchResponse;
+import com.foodaholic.api.dto.request.RecalculateNutritionRequest;
+import com.foodaholic.api.dto.request.RecipeSearchRequest;
+import com.foodaholic.api.dto.response.RecalculateNutritionResponse;
+import com.foodaholic.api.dto.response.RecipeDetailResponse;
+import com.foodaholic.api.dto.response.RecipeSearchResponse;
 import com.foodaholic.api.service.RecipeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

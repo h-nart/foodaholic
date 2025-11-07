@@ -2,10 +2,10 @@ package com.foodaholic.api.service;
 
 import java.util.List;
 
-import com.foodaholic.api.model.response.NutritionSummary;
-import com.foodaholic.api.model.spoonacular.Nutrient;
-import com.foodaholic.api.model.spoonacular.SpoonacularParsedIngredient;
-import com.foodaholic.api.model.spoonacular.SpoonacularRecipeInformation;
+import com.foodaholic.api.dto.response.NutritionSummary;
+import com.foodaholic.api.dto.spoonacular.Nutrient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularParsedIngredient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
 import org.springframework.stereotype.Service;
 
 @Service

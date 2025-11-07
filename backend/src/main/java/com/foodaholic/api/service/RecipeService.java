@@ -8,16 +8,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.foodaholic.api.client.SpoonacularClient;
-import com.foodaholic.api.model.request.RecalculateNutritionRequest;
-import com.foodaholic.api.model.request.RecipeSearchRequest;
-import com.foodaholic.api.model.response.NutritionSummary;
-import com.foodaholic.api.model.response.RecalculateNutritionResponse;
-import com.foodaholic.api.model.response.RecipeDetailResponse;
-import com.foodaholic.api.model.response.RecipeSearchResponse;
-import com.foodaholic.api.model.response.RecipeSummary;
-import com.foodaholic.api.model.spoonacular.SpoonacularParsedIngredient;
-import com.foodaholic.api.model.spoonacular.SpoonacularRecipeInformation;
-import com.foodaholic.api.model.spoonacular.SpoonacularSearchResponse;
+import com.foodaholic.api.dto.request.RecalculateNutritionRequest;
+import com.foodaholic.api.dto.request.RecipeSearchRequest;
+import com.foodaholic.api.dto.response.NutritionSummary;
+import com.foodaholic.api.dto.response.RecalculateNutritionResponse;
+import com.foodaholic.api.dto.response.RecipeDetailResponse;
+import com.foodaholic.api.dto.response.RecipeSearchResponse;
+import com.foodaholic.api.dto.response.RecipeSummary;
+import com.foodaholic.api.dto.spoonacular.SpoonacularParsedIngredient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
+import com.foodaholic.api.dto.spoonacular.SpoonacularSearchResponse;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 

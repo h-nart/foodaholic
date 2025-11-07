@@ -1,4 +1,4 @@
-package com.foodaholic.api.model.spoonacular;
+package com.foodaholic.api.dto.spoonacular;
 
 public record SpoonacularParsedIngredient(
     String original,

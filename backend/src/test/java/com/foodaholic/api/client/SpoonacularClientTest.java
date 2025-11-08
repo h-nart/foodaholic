@@ -2,6 +2,7 @@ package com.foodaholic.api.client;
 
 import com.foodaholic.api.dto.request.RecipeSearchRequest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -20,6 +21,7 @@ class SpoonacularClientTest {
     }
 
     @Test
+    @DisplayName("Should pass nulls for blank fields and true booleans to SpoonacularFeign")
     void searchRecipes_passesBooleansAndNullsForBlankOptionals() {
         RecipeSearchRequest request = new RecipeSearchRequest(
             "q", "  ", "", null, " ", "", null, 30, 0, 5

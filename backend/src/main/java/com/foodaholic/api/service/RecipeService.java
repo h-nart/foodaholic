@@ -1,24 +1,22 @@
 package com.foodaholic.api.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.foodaholic.api.client.SpoonacularClient;
-import com.foodaholic.api.dto.request.RecalculateNutritionRequest;
 import com.foodaholic.api.dto.request.RecipeSearchRequest;
 import com.foodaholic.api.dto.response.NutritionSummary;
-import com.foodaholic.api.dto.response.RecalculateNutritionResponse;
 import com.foodaholic.api.dto.response.RecipeDetailResponse;
 import com.foodaholic.api.dto.response.RecipeSearchResponse;
 import com.foodaholic.api.dto.response.RecipeSummary;
-import com.foodaholic.api.dto.spoonacular.*;
-import org.springframework.stereotype.Service;
+import com.foodaholic.api.dto.spoonacular.Nutrient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularIngredientNutrition;
+import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
+import com.foodaholic.api.dto.spoonacular.SpoonacularSearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -96,44 +94,5 @@ public class RecipeService {
             ingredients,
             summary
         );
-    }
-
-    public RecalculateNutritionResponse recalculateCalories(long id, RecalculateNutritionRequest request) {
-        SpoonacularRecipeInformation info = client.getRecipeInformation(id, false);
-        int servings = info != null && info.servings() != null ? info.servings() : 1;
-
-        Set<Long> excludeIds = request != null && request.excludeIngredientIds() != null
-            ? request.excludeIngredientIds().stream().filter(Objects::nonNull).collect(Collectors.toSet())
-            : Set.of();
-        Set<String> excludeNamesLower = request != null && request.excludeIngredientNames() != null
-            ? request.excludeIngredientNames().stream().filter(Objects::nonNull).map(s -> s.toLowerCase(Locale.ROOT)).collect(Collectors.toSet())
-            : Set.of();
-
-        List<SpoonacularRecipeInformation.ExtendedIngredient> remaining = new ArrayList<>();
-        if (info != null && info.extendedIngredients() != null) {
-            for (SpoonacularRecipeInformation.ExtendedIngredient e : info.extendedIngredients()) {
-                boolean excludedById = e.id() != null && excludeIds.contains(e.id());
-                boolean excludedByName = e.name() != null && excludeNamesLower.contains(e.name().toLowerCase(Locale.ROOT));
-                if (!excludedById && !excludedByName) {
-                    remaining.add(e);
-                }
-            }
-        }
-
-        StringBuilder ingredientList = new StringBuilder();
-        for (SpoonacularRecipeInformation.ExtendedIngredient e : remaining) {
-            if (e.original() != null && !e.original().isBlank()) {
-                if (!ingredientList.isEmpty()) ingredientList.append("\n");
-                ingredientList.append(e.original());
-            }
-        }
-
-        List<SpoonacularParsedIngredient> parsed = client.parseIngredients(ingredientList.toString(), true);
-        NutritionSummary nutrition = nutritionService.computeTotalsFromParsed(parsed, servings);
-        RecalculateNutritionResponse.Excluded excluded = new RecalculateNutritionResponse.Excluded(
-            new ArrayList<>(excludeIds),
-            new ArrayList<>(excludeNamesLower)
-        );
-        return new RecalculateNutritionResponse(nutrition, excluded, remaining.size());
     }
 }

@@ -30,18 +30,8 @@ class SpoonacularClientTest {
         client.searchRecipes(request);
 
         verify(feign, times(1)).complexSearch(
-            eq("q"),
-            eq(true),
-            eq(true),
-            isNull(),
-            isNull(),
-            isNull(),
-            isNull(),
-            isNull(),
-            isNull(),
-            eq(30),
-            eq(0),
-            eq(5)
+                eq("q"), eq(true), eq(true),
+                isNull(), isNull(), isNull(), isNull(), isNull(), isNull(), eq(30), eq(0), eq(5)
         );
     }
 

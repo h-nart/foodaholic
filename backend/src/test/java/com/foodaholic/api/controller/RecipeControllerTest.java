@@ -14,7 +14,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class RecipeControllerUnitTest {
+class RecipeControllerTest {
 
     private RecipeService recipeService;
     private RecipeController controller;

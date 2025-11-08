@@ -11,6 +11,7 @@ import com.foodaholic.api.dto.spoonacular.SpoonacularIngredientNutrition;
 import com.foodaholic.api.dto.spoonacular.SpoonacularRecipeInformation;
 import com.foodaholic.api.dto.spoonacular.SpoonacularSearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class RecipeService {
         return new RecipeSearchResponse(api.offset(), api.number(), api.totalResults(), list);
     }
 
+    @Cacheable(value = "recipeDetails", key = "#id", unless = "#result == null")
     public RecipeDetailResponse getDetails(long id) {
         SpoonacularRecipeInformation info = client.getRecipeInformation(id, true);
         if (info == null) {

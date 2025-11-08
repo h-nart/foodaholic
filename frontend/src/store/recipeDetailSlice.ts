@@ -1,17 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { recipeApi } from '../api/client';
-import type { RecipeDetailResponse, RecalculateNutritionRequest } from '../types';
+import type { RecipeDetailResponse } from '../types';
 
 interface RecipeDetailState {
   recipe: RecipeDetailResponse | null;
   loading: boolean;
   error: string | null;
   excludedIngredientIds: number[];
-  recalculatingNutrition: boolean;
-  recalculationResult: {
-    successfullyExcluded: number[];
-    notFound: string[];
-  } | null;
 }
 
 const initialState: RecipeDetailState = {
@@ -19,8 +14,6 @@ const initialState: RecipeDetailState = {
   loading: false,
   error: null,
   excludedIngredientIds: [],
-  recalculatingNutrition: false,
-  recalculationResult: null,
 };
 
 // Async thunks
@@ -32,21 +25,6 @@ export const fetchRecipeDetail = createAsyncThunk(
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message || 'Failed to fetch recipe details');
-    }
-  }
-);
-
-export const recalculateNutrition = createAsyncThunk(
-  'recipeDetail/recalculateNutrition',
-  async (
-    { id, request }: { id: number; request: RecalculateNutritionRequest },
-    { rejectWithValue }
-  ) => {
-    try {
-      const response = await recipeApi.recalculateNutrition(id, request);
-      return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Failed to recalculate nutrition');
     }
   }
 );
@@ -64,15 +42,43 @@ const recipeDetailSlice = createSlice({
       } else {
         state.excludedIngredientIds.push(id);
       }
+
+      // Recalculate nutrition locally
+      if (state.recipe) {
+        const activeIngredients = state.recipe.extendedIngredients.filter(
+          (ing) => !state.excludedIngredientIds.includes(ing.id)
+        );
+        // Ingredient calories are per serving, so sum them up
+        const caloriesPerServing = activeIngredients.reduce((sum, ing) => sum + ing.calories, 0);
+        const servings = state.recipe.servings || 1;
+        
+        state.recipe.nutrition = {
+          caloriesPerServing,
+          totalCalories: caloriesPerServing * servings,
+        };
+      }
     },
     clearExcludedIngredients: (state) => {
       state.excludedIngredientIds = [];
-      state.recalculationResult = null;
+      
+      // Reset nutrition to include all ingredients
+      if (state.recipe) {
+        // Ingredient calories are per serving, so sum them up
+        const caloriesPerServing = state.recipe.extendedIngredients.reduce(
+          (sum, ing) => sum + ing.calories, 
+          0
+        );
+        const servings = state.recipe.servings || 1;
+        
+        state.recipe.nutrition = {
+          caloriesPerServing,
+          totalCalories: caloriesPerServing * servings,
+        };
+      }
     },
     clearRecipeDetail: (state) => {
       state.recipe = null;
       state.excludedIngredientIds = [];
-      state.recalculationResult = null;
       state.error = null;
     },
   },
@@ -87,29 +93,9 @@ const recipeDetailSlice = createSlice({
         state.loading = false;
         state.recipe = action.payload;
         state.excludedIngredientIds = [];
-        state.recalculationResult = null;
       })
       .addCase(fetchRecipeDetail.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
-      })
-      // Recalculate nutrition
-      .addCase(recalculateNutrition.pending, (state) => {
-        state.recalculatingNutrition = true;
-        state.error = null;
-      })
-      .addCase(recalculateNutrition.fulfilled, (state, action) => {
-        state.recalculatingNutrition = false;
-        if (state.recipe) {
-          state.recipe.nutrition = action.payload.nutrition;
-        }
-        state.recalculationResult = {
-          successfullyExcluded: action.payload.excluded.ids,
-          notFound: action.payload.excluded.names,
-        };
-      })
-      .addCase(recalculateNutrition.rejected, (state, action) => {
-        state.recalculatingNutrition = false;
         state.error = action.payload as string;
       });
   },

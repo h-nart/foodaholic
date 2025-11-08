@@ -10,7 +10,6 @@ export const RecipeDetailPage: React.FC = () => {
     recipe,
     loading,
     excludedIngredientIds,
-    recalculatingNutrition,
     onRemoveIngredient,
     onRestoreIngredient,
   } = useNutritionCalculator();
@@ -66,7 +65,6 @@ export const RecipeDetailPage: React.FC = () => {
                 excludedIds={excludedIngredientIds}
                 onRemoveIngredient={onRemoveIngredient}
                 onRestoreIngredient={onRestoreIngredient}
-                isRecalculating={recalculatingNutrition}
               />
             </aside>
           </div>

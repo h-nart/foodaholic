@@ -12,7 +12,6 @@ interface RecipeDetailsProps {
   excludedIds: number[];
   onRemoveIngredient: (id: number) => void;
   onRestoreIngredient: (id: number) => void;
-  isRecalculating: boolean;
 }
 
 export const RecipeDetails: React.FC<RecipeDetailsProps> = ({
@@ -21,29 +20,28 @@ export const RecipeDetails: React.FC<RecipeDetailsProps> = ({
   excludedIds,
   onRemoveIngredient,
   onRestoreIngredient,
-  isRecalculating,
 }) => {
   const dispatch = useAppDispatch();
-  const [pendingAction, setPendingAction] = useState<{ id: number; calories: number; isRemoval: boolean } | null>(null);
   const [previousCalories, setPreviousCalories] = useState<number>(nutrition.totalCalories);
+  const [lastAction, setLastAction] = useState<{ id: number; isRemoval: boolean } | null>(null);
 
-  // Track calorie changes
+  // Track calorie changes and show toast
   useEffect(() => {
-    if (pendingAction && Math.round(previousCalories) !== Math.round(nutrition.totalCalories)) {
+    if (lastAction && Math.round(previousCalories) !== Math.round(nutrition.totalCalories)) {
       const calorieDiff = Math.round(Math.abs(previousCalories - nutrition.totalCalories));
       
       // Find the ingredient
-      const ingredient = ingredients.find((ing) => ing.id === pendingAction.id);
+      const ingredient = ingredients.find((ing) => ing.id === lastAction.id);
       
       if (ingredient && calorieDiff > 0) {
-        if (pendingAction.isRemoval) {
+        if (lastAction.isRemoval) {
           // Ingredient was removed
           dispatch(
             addToast({
               title: `Removed ${ingredient.name}`,
               description: `-${calorieDiff} kcal`,
               type: 'info',
-              duration: 3000,
+              duration: 1500,
             })
           );
         } else {
@@ -53,26 +51,26 @@ export const RecipeDetails: React.FC<RecipeDetailsProps> = ({
               title: `Added back ${ingredient.name}`,
               description: `+${calorieDiff} kcal`,
               type: 'success',
-              duration: 3000,
+              duration: 1500,
             })
           );
         }
       }
       
-      setPendingAction(null);
+      setLastAction(null);
       setPreviousCalories(nutrition.totalCalories);
     }
-  }, [nutrition.totalCalories, previousCalories, pendingAction, ingredients, dispatch]);
+  }, [nutrition.totalCalories, previousCalories, lastAction, ingredients, dispatch]);
 
   const handleRemove = (id: number) => {
     setPreviousCalories(nutrition.totalCalories);
-    setPendingAction({ id, calories: nutrition.totalCalories, isRemoval: true });
+    setLastAction({ id, isRemoval: true });
     onRemoveIngredient(id);
   };
 
   const handleRestore = (id: number) => {
     setPreviousCalories(nutrition.totalCalories);
-    setPendingAction({ id, calories: nutrition.totalCalories, isRemoval: false });
+    setLastAction({ id, isRemoval: false });
     onRestoreIngredient(id);
   };
 
@@ -88,10 +86,9 @@ export const RecipeDetails: React.FC<RecipeDetailsProps> = ({
           excludedIds={excludedIds}
           onRemove={handleRemove}
           onRestore={handleRestore}
-          isRecalculating={isRecalculating}
         />
 
-        <CalorieDisplay nutrition={nutrition} isRecalculating={isRecalculating} />
+        <CalorieDisplay nutrition={nutrition} />
       </div>
     </section>
   );

@@ -5,7 +5,6 @@ import {
   fetchRecipeDetail,
   toggleExcludeIngredient,
   clearRecipeDetail,
-  recalculateNutrition,
 } from '../../../store/recipeDetailSlice';
 import { addToast } from '../../../store/uiSlice';
 
@@ -13,7 +12,7 @@ export const useNutritionCalculator = () => {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const { recipe, loading, error, excludedIngredientIds, recalculatingNutrition } =
+  const { recipe, loading, error, excludedIngredientIds } =
     useAppSelector((state) => state.recipeDetail);
 
   useEffect(() => {
@@ -39,60 +38,19 @@ export const useNutritionCalculator = () => {
   }, [error, dispatch]);
 
   const handleRemoveIngredient = (id: number) => {
-    if (!recipe) return;
-
-    // Toggle the ingredient to exclude it
+    // Toggle state - nutrition recalculates automatically in Redux
     dispatch(toggleExcludeIngredient(id));
-
-    // Auto-recalculate after a short delay
-    setTimeout(() => {
-      const newExcludedIds = [...excludedIngredientIds, id];
-      const excludedNames = recipe.extendedIngredients
-        .filter((ing) => newExcludedIds.includes(ing.id))
-        .map((ing) => ing.name);
-
-      dispatch(
-        recalculateNutrition({
-          id: recipe.id,
-          request: {
-            excludedIngredientIds: newExcludedIds,
-            excludedIngredientNames: excludedNames,
-          },
-        })
-      );
-    }, 100);
   };
 
   const handleRestoreIngredient = (id: number) => {
-    if (!recipe) return;
-
-    // Toggle the ingredient to include it back
+    // Toggle state - nutrition recalculates automatically in Redux
     dispatch(toggleExcludeIngredient(id));
-
-    // Auto-recalculate after a short delay
-    setTimeout(() => {
-      const newExcludedIds = excludedIngredientIds.filter((excludedId) => excludedId !== id);
-      const excludedNames = recipe.extendedIngredients
-        .filter((ing) => newExcludedIds.includes(ing.id))
-        .map((ing) => ing.name);
-
-      dispatch(
-        recalculateNutrition({
-          id: recipe.id,
-          request: {
-            excludedIngredientIds: newExcludedIds,
-            excludedIngredientNames: excludedNames,
-          },
-        })
-      );
-    }, 100);
   };
 
   return {
     recipe,
     loading,
     excludedIngredientIds,
-    recalculatingNutrition,
     onRemoveIngredient: handleRemoveIngredient,
     onRestoreIngredient: handleRestoreIngredient,
   };

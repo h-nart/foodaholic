@@ -21,6 +21,7 @@ export interface Ingredient {
   id: number;
   name: string;
   original: string;
+  calories: number;
 }
 
 export interface NutritionSummary {
@@ -38,20 +39,6 @@ export interface RecipeDetailResponse {
   instructions: string;
   extendedIngredients: Ingredient[];
   nutrition: NutritionSummary;
-}
-
-export interface RecalculateNutritionRequest {
-  excludedIngredientIds: number[];
-  excludedIngredientNames: string[];
-}
-
-export interface RecalculateNutritionResponse {
-  nutrition: NutritionSummary;
-  excluded: {
-    ids: number[];
-    names: string[];
-  };
-  remainingIngredientsCount: number;
 }
 
 export interface RecipeSearchRequest {

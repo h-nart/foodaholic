@@ -2,8 +2,6 @@ import axios, { AxiosError } from 'axios';
 import type {
   RecipeSearchResponse,
   RecipeDetailResponse,
-  RecalculateNutritionRequest,
-  RecalculateNutritionResponse,
   RecipeSearchRequest,
 } from '../types';
 
@@ -76,20 +74,6 @@ export const recipeApi = {
    */
   getRecipeDetails: async (id: number): Promise<RecipeDetailResponse> => {
     const response = await apiClient.get<RecipeDetailResponse>(`/recipes/${id}`);
-    return response.data;
-  },
-
-  /**
-   * Recalculate nutrition with excluded ingredients
-   */
-  recalculateNutrition: async (
-    id: number,
-    request: RecalculateNutritionRequest
-  ): Promise<RecalculateNutritionResponse> => {
-    const response = await apiClient.post<RecalculateNutritionResponse>(
-      `/recipes/${id}/nutrition/recalculate`,
-      request
-    );
     return response.data;
   },
 };

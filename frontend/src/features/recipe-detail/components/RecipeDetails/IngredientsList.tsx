@@ -6,7 +6,6 @@ interface IngredientsListProps {
   excludedIds: number[];
   onRemove: (id: number) => void;
   onRestore: (id: number) => void;
-  isRecalculating: boolean;
 }
 
 export const IngredientsList: React.FC<IngredientsListProps> = ({
@@ -14,7 +13,6 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
   excludedIds,
   onRemove,
   onRestore,
-  isRecalculating,
 }) => {
   return (
     <ul className="ingredients-list" role="list">
@@ -31,7 +29,6 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                 onClick={() => onRestore(ingredient.id)}
                 className="ingredient-restore"
                 aria-label={`Restore ${ingredient.name}`}
-                disabled={isRecalculating}
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -51,7 +48,6 @@ export const IngredientsList: React.FC<IngredientsListProps> = ({
                 onClick={() => onRemove(ingredient.id)}
                 className="ingredient-delete"
                 aria-label={`Remove ${ingredient.name}`}
-                disabled={isRecalculating}
               >
                 <svg
                   viewBox="0 0 24 24"

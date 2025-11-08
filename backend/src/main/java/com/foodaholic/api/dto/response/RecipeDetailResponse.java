@@ -13,5 +13,5 @@ public record RecipeDetailResponse(
     List<Ingredient> extendedIngredients,
     NutritionSummary nutrition
 ) {
-    public record Ingredient(Long id, String name, String original) {}
+    public record Ingredient(Long id, String name, String original, Double calories) {}
 }

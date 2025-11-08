@@ -13,5 +13,5 @@ public record SpoonacularRecipeInformation(
     List<ExtendedIngredient> extendedIngredients,
     Nutrition nutrition
 ) {
-    public record ExtendedIngredient(Long id, String name, String original) {}
+    public record ExtendedIngredient(Long id, String name, String original, Double calories) {}
 }

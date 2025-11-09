@@ -9,7 +9,7 @@ import type { FilterValues } from '../components';
 
 export const useRecipeSearch = () => {
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { results, loading, loadingMore, error, filters, hasMore } = useAppSelector(
     (state) => state.recipes
   );
@@ -18,13 +18,13 @@ export const useRecipeSearch = () => {
   const urlQuery = searchParams.get('q') || '';
   const [searchQuery, setSearchQuery] = useState(urlQuery || filters.query);
   const [filterValues, setFilterValues] = useState<FilterValues>({
-    diet: 'any',
-    cuisine: 'any',
-    type: 'any',
-    selectedIntolerances: [],
-    includeIngredients: '',
-    excludeIngredients: '',
-    maxReadyTime: [120],
+    diet: searchParams.get('diet') || 'any',
+    cuisine: searchParams.get('cuisine') || 'any',
+    type: searchParams.get('type') || 'any',
+    selectedIntolerances: searchParams.get('intolerances')?.split(',').filter(Boolean) || [],
+    includeIngredients: searchParams.get('includeIngredients') || '',
+    excludeIngredients: searchParams.get('excludeIngredients') || '',
+    maxReadyTime: [parseInt(searchParams.get('maxReadyTime') || '120')],
   });
 
   const debouncedQuery = useDebounce(searchQuery, 500);
@@ -35,7 +35,7 @@ export const useRecipeSearch = () => {
     if (queryFromUrl && queryFromUrl !== searchQuery) {
       setSearchQuery(queryFromUrl);
     }
-  }, [searchParams]);
+  }, []);
 
   // Infinite scroll
   const sentinelRef = useInfiniteScroll({
@@ -47,6 +47,22 @@ export const useRecipeSearch = () => {
   // Search when debounced query or filters change
   useEffect(() => {
     if (debouncedQuery.trim()) {
+      // Update URL params
+      const params = new URLSearchParams();
+      params.set('q', debouncedQuery);
+      
+      if (filterValues.diet !== 'any') params.set('diet', filterValues.diet);
+      if (filterValues.cuisine !== 'any') params.set('cuisine', filterValues.cuisine);
+      if (filterValues.type !== 'any') params.set('type', filterValues.type);
+      if (filterValues.selectedIntolerances.length > 0) {
+        params.set('intolerances', filterValues.selectedIntolerances.join(','));
+      }
+      if (filterValues.includeIngredients) params.set('includeIngredients', filterValues.includeIngredients);
+      if (filterValues.excludeIngredients) params.set('excludeIngredients', filterValues.excludeIngredients);
+      if (filterValues.maxReadyTime[0] !== 120) params.set('maxReadyTime', filterValues.maxReadyTime[0].toString());
+      
+      setSearchParams(params, { replace: true });
+
       dispatch(resetSearch());
       dispatch(updateFilters({ query: debouncedQuery }));
       dispatch(
@@ -63,8 +79,11 @@ export const useRecipeSearch = () => {
           offset: 0,
         })
       );
+    } else {
+      // Clear URL params if query is empty
+      setSearchParams({}, { replace: true });
     }
-  }, [debouncedQuery, filterValues, dispatch]);
+  }, [debouncedQuery, filterValues]);
 
   // Show error toast
   useEffect(() => {

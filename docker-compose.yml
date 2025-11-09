@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/app
+      - maven_repo:/root/.m2
+    environment:
+      - SPOONACULAR_API_KEY=${SPOONACULAR_API_KEY}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+      start_period: 5s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/app
+      - node_modules:/app/node_modules
+    environment:
+      - API_BASE_URL=${API_BASE_URL}
+    ports:
+      - "5173:5173"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  maven_repo: {}
+  node_modules: {}

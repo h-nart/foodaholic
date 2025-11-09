@@ -1,0 +1,10 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Enable corepack and prepare pnpm
+RUN corepack enable
+
+EXPOSE 5173
+
+CMD ["sh", "-c", "corepack enable && pnpm install && pnpm dev --host 0.0.0.0"]

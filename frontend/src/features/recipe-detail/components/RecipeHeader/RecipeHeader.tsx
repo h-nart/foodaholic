@@ -19,7 +19,7 @@ export const RecipeHeader: React.FC = () => {
       <div className="container">
         <div className="recipe-header__content">
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/')}
             className="recipe-header__back-button"
             aria-label="Go back to previous page"
           >

@@ -37,12 +37,7 @@ export const useNutritionCalculator = () => {
     }
   }, [error, dispatch]);
 
-  const handleRemoveIngredient = (id: number) => {
-    // Toggle state - nutrition recalculates automatically in Redux
-    dispatch(toggleExcludeIngredient(id));
-  };
-
-  const handleRestoreIngredient = (id: number) => {
+  const handleToggleIngredient = (id: number) => {
     // Toggle state - nutrition recalculates automatically in Redux
     dispatch(toggleExcludeIngredient(id));
   };
@@ -51,8 +46,8 @@ export const useNutritionCalculator = () => {
     recipe,
     loading,
     excludedIngredientIds,
-    onRemoveIngredient: handleRemoveIngredient,
-    onRestoreIngredient: handleRestoreIngredient,
+    onRemoveIngredient: handleToggleIngredient,
+    onRestoreIngredient: handleToggleIngredient,
   };
 };
 

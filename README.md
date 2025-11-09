@@ -37,8 +37,8 @@ docker compose --profile prod up --build -d
 5. `.env` usage: 
    - Docker Compose automatically loads the root `.env` file for variable substitution. In the dev profile, services read values from `.env` alongside mounted source for fast iteration; in the prod profile, those values are injected into containers at build/run time so everything runs fully inside containers.
 6. Per-project READMEs for cleaner structure:
-  - [frontend/README.md](https://github.com/h-nart/foodaholic/blob/main/frontend/README.md)
-  - [backend/README.md](https://github.com/h-nart/foodaholic/blob/main/backend/README.md)
+   - [frontend/README.md](https://github.com/h-nart/foodaholic/blob/main/frontend/README.md)
+   - [backend/README.md](https://github.com/h-nart/foodaholic/blob/main/backend/README.md)
 
 ## AI Reflection
 

@@ -1,5 +1,7 @@
 package com.foodaholic.api.dto.spoonacular;
 
+import com.foodaholic.api.model.Ingredient;
+
 import java.util.List;
 
 public record SpoonacularRecipeInformation(
@@ -10,8 +12,6 @@ public record SpoonacularRecipeInformation(
     Integer readyInMinutes,
     String summary,
     String instructions,
-    List<ExtendedIngredient> extendedIngredients,
-    Nutrition nutrition
-) {
-    public record ExtendedIngredient(Long id, String name, String original, Double calories) {}
-}
+    List<Ingredient> extendedIngredients,
+    SpoonacularNutrition nutrition
+) {}

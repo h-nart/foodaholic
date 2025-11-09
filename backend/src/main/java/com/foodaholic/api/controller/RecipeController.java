@@ -4,6 +4,7 @@ import com.foodaholic.api.dto.request.RecipeSearchRequest;
 import com.foodaholic.api.dto.response.NutritionSummary;
 import com.foodaholic.api.dto.response.RecipeDetailResponse;
 import com.foodaholic.api.dto.response.RecipeSearchResponse;
+import com.foodaholic.api.model.Ingredient;
 import com.foodaholic.api.service.RecipeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +47,8 @@ public class RecipeController {
         double excludedCalories = 0d;
         if (details.extendedIngredients() != null && !excluded.isEmpty()) {
             excludedCalories = details.extendedIngredients().stream()
-                .filter(i -> i != null && i.id() != null && excluded.contains(i.id()) && i.calories() != null)
-                .mapToDouble(RecipeDetailResponse.Ingredient::calories)
+                .filter(i -> i != null && i.getId() != null && excluded.contains(i.getId()) && i.getCalories() != null)
+                .mapToDouble(Ingredient::getCalories)
                 .sum();
         }
         double adjustedPerServing = Math.max(0d, perServing - excludedCalories);

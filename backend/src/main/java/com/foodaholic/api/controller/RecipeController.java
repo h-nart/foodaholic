@@ -38,20 +38,24 @@ public class RecipeController {
     public NutritionSummary getAdjustedCalories(@PathVariable long id,
                                                 @RequestParam(name = "exclude", required = false) List<Long> excludeIds) {
         RecipeDetailResponse details = recipeService.getDetails(id);
-        if (details == null) {
+        if (details == null || details.nutrition() == null) {
             return new NutritionSummary(0, 0);
         }
-        Set<Long> excluded = excludeIds == null ? Set.of() : new HashSet<>(excludeIds);
-        double perServing = details.nutrition() != null ? details.nutrition().caloriesPerServing() : 0d;
+        if (excludeIds == null || excludeIds.isEmpty()) {
+            return details.nutrition();
+        }
+
+        Set<Long> excluded = new HashSet<>(excludeIds);
+        double perServing = details.nutrition().caloriesPerServing();
         int servings = details.servings() != null ? details.servings() : 1;
         double excludedCalories = 0d;
-        if (details.extendedIngredients() != null && !excluded.isEmpty()) {
+        if (details.extendedIngredients() != null) {
             excludedCalories = details.extendedIngredients().stream()
-                .filter(i -> i != null && i.getId() != null && excluded.contains(i.getId()) && i.getCalories() != null)
+                .filter(i -> i.getId() != null && excluded.contains(i.getId()) && i.getCalories() != null)
                 .mapToDouble(Ingredient::getCalories)
                 .sum();
         }
-        double adjustedPerServing = Math.max(0d, perServing - excludedCalories);
+        double adjustedPerServing = perServing - excludedCalories;
         return new NutritionSummary(adjustedPerServing, adjustedPerServing * servings);
     }
 }

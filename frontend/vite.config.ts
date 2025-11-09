@@ -10,6 +10,13 @@ export default defineConfig(({ mode }) => {
       port: 5173,
       host: true,
     },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
     define: {
       'import.meta.env.API_BASE_URL': JSON.stringify(env.API_BASE_URL),
     },

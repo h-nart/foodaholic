@@ -5,6 +5,7 @@ import com.foodaholic.api.dto.response.NutritionSummary;
 import com.foodaholic.api.dto.response.RecipeDetailResponse;
 import com.foodaholic.api.dto.response.RecipeSearchResponse;
 import com.foodaholic.api.dto.response.RecipeSummary;
+import com.foodaholic.api.model.Ingredient;
 import com.foodaholic.api.service.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ class RecipeControllerTest {
         long id = 42L;
         RecipeDetailResponse response = new RecipeDetailResponse(
             id, "T", "img", 2, 15, "s", "i",
-            List.of(new RecipeDetailResponse.Ingredient(1L, "n", "o", 10d)),
+            List.of(new Ingredient(1L, "n", "o", 10d)),
             new NutritionSummary(100, 200)
         );
         when(recipeService.getDetails(id)).thenReturn(response);

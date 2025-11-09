@@ -7,6 +7,9 @@ import com.foodaholic.api.dto.response.RecipeDetailResponse;
 import com.foodaholic.api.dto.response.RecipeSearchResponse;
 import com.foodaholic.api.dto.response.RecipeSummary;
 import com.foodaholic.api.dto.spoonacular.*;
+import com.foodaholic.api.model.Ingredient;
+import com.foodaholic.api.model.Nutrient;
+import com.foodaholic.api.dto.spoonacular.SpoonacularNutrition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,14 +22,12 @@ import static org.mockito.Mockito.when;
 class RecipeServiceTest {
 
     private SpoonacularClient client;
-    private NutritionService nutritionService;
     private RecipeService service;
 
     @BeforeEach
     void setUp() {
         client = mock(SpoonacularClient.class);
-        nutritionService = mock(NutritionService.class);
-        service = new RecipeService(client, nutritionService);
+        service = new RecipeService(client, new NutritionService());
     }
 
     @Test
@@ -95,34 +96,33 @@ class RecipeServiceTest {
             new SpoonacularIngredientNutrition(null, "Banana", null, null,
                 List.of(new Nutrient("Calories", 45.0, "kcal")))
         );
-        Nutrition nutrition = new Nutrition(
+        SpoonacularNutrition nutrition = new SpoonacularNutrition(
             List.of(new Nutrient("Calories", 200.0, "kcal")),
             ingredientsNutrition
         );
         SpoonacularRecipeInformation info = new SpoonacularRecipeInformation(
             10L, "T", "img", 2, 15, "s", "i",
             List.of(
-                new SpoonacularRecipeInformation.ExtendedIngredient(100L, "Apple", "orig1", null),
-                new SpoonacularRecipeInformation.ExtendedIngredient(null, "BANANA", "orig2", null),
-                new SpoonacularRecipeInformation.ExtendedIngredient(999L, "Unknown", "orig3", null)
+                new Ingredient(100L, "Apple", "orig1", null),
+                new Ingredient(null, "BANANA", "orig2", null),
+                new Ingredient(999L, "Unknown", "orig3", null)
             ),
             nutrition
         );
         when(client.getRecipeInformation(10L, true)).thenReturn(info);
-        when(nutritionService.extractCaloriesPerServing(info)).thenReturn(200.0);
 
         RecipeDetailResponse result = service.getDetails(10L);
 
         assertThat(result.extendedIngredients()).hasSize(3);
-        assertThat(result.extendedIngredients().get(0).calories()).isEqualTo(123.0);
-        assertThat(result.extendedIngredients().get(1).calories()).isEqualTo(45.0);
-        assertThat(result.extendedIngredients().get(2).calories()).isNull();
+        assertThat(result.extendedIngredients().get(0).getCalories()).isEqualTo(123.0);
+        assertThat(result.extendedIngredients().get(1).getCalories()).isEqualTo(45.0);
+        assertThat(result.extendedIngredients().get(2).getCalories()).isNull();
         assertThat(result.nutrition()).isEqualTo(new NutritionSummary(200.0, 400.0));
     }
 
     @Test
     void getDetails_usesServingsFallbackToOne_whenNull() {
-        Nutrition nutrition = new Nutrition(
+        SpoonacularNutrition nutrition = new SpoonacularNutrition(
             List.of(new Nutrient("Calories", 50.0, "kcal")),
             List.of()
         );
@@ -131,7 +131,6 @@ class RecipeServiceTest {
             List.of(), nutrition
         );
         when(client.getRecipeInformation(11L, true)).thenReturn(info);
-        when(nutritionService.extractCaloriesPerServing(info)).thenReturn(50.0);
 
         RecipeDetailResponse result = service.getDetails(11L);
 

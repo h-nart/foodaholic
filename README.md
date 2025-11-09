@@ -22,12 +22,21 @@ docker compose --profile prod up --build -d
 
 ## Design Decisions
 
-- Monorepo structure: this repo contains both `backend` (Spring Boot) and `frontend` (Vite + React) for convenience. In a real-world setup, each would typically live in its own repository for clearer ownership, CI/CD, and release management.
-- Each project runs independently: the backend and frontend can each be built and run on their own; `docker-compose.yml` orchestrates them together for local/dev and production-like runs.
-- Separate Docker images: each project has its own `Dockerfile` and is built into its own image. Docker Compose brings these images up as separate containers.
-- Backend container does health check using `curl` on `:8080` before it marks itself healthy. Frontend container waits for the backend server to go up.
-- `.env` usage: Docker Compose automatically loads the root `.env` file for variable substitution. In the dev profile, services read values from `.env` alongside mounted source for fast iteration; in the prod profile, those values are injected into containers at build/run time so everything runs fully inside containers.
-- Per-project READMEs for cleaner structure:
+1. Monorepo structure: 
+   - Contains both `backend` (Spring Boot) and `frontend` (Vite + React) for convenience. 
+   - In a real-world setup, each would typically live in its own repository for clearer ownership, CI/CD, and release management.
+2. Each project runs independently:
+   - Backend and frontend can each be built and run on their own.
+   - `docker-compose.yml` orchestrates them together for local/dev and production-like runs.
+3. Separate Docker images:
+   - each project has its own `Dockerfile` and is built into its own image. 
+   - Docker Compose brings these images up as separate containers.
+4. Container Dependency:
+   - Backend container does health check using `curl` on `:8080` before it marks itself healthy.
+   - Frontend container waits for the backend server to go up.
+5. `.env` usage: 
+   - Docker Compose automatically loads the root `.env` file for variable substitution. In the dev profile, services read values from `.env` alongside mounted source for fast iteration; in the prod profile, those values are injected into containers at build/run time so everything runs fully inside containers.
+6. Per-project READMEs for cleaner structure:
   - [frontend/README.md](https://github.com/h-nart/foodaholic/blob/main/frontend/README.md)
   - [backend/README.md](https://github.com/h-nart/foodaholic/blob/main/backend/README.md)
 

@@ -16,28 +16,25 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleRestClient(RestClientResponseException ex) {
         HttpStatus status = HttpStatus.resolve(ex.getStatusCode().value());
         if (status == null) status = HttpStatus.BAD_GATEWAY;
-        return ResponseEntity.status(status)
-            .body(Map.of(
-                "error", ex.getResponseBodyAsString(),
-                "status", status.value()
-            ));
+        return ResponseEntity.status(status).body(errorBody(ex.getResponseBodyAsString(), status));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
-        return ResponseEntity.badRequest()
-            .body(Map.of(
-                "error", ex.getMessage(),
-                "status", 400
-            ));
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(errorBody(ex.getMessage(), status));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(Map.of(
-                "error", ex.getMessage(),
-                "status", 500
-            ));
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+        return ResponseEntity.status(status).body(errorBody(ex.getMessage(), status));
+    }
+
+    private Map<String, Object> errorBody(String message, HttpStatus status) {
+        return Map.of(
+                "error", message,
+                "status", status.value()
+        );
     }
 }

@@ -34,3 +34,4 @@
 1. It can bulk all logic into one class: I extracted `RecipeService` and `NutritionService` to isolate responsibilities.
 2. It may prefer simpler technologies unless specifically encouraged otherwise: I asked it to use OpenFeign instead of RestTemplate.
 3. AI may follow existing code too literally (DTO vs POJO modeling); I refactored and extracted logic to align with domain needs.
+4. Requires careful review: It might do redundant checks or logic, hurting readability, e.g., [this PR](https://github.com/h-nart/foodaholic/commit/ec3e8764e558ec63bc0ead8b9f215c6f7c2b716d).

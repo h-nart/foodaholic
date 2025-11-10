@@ -45,3 +45,4 @@ docker compose --profile prod up --build -d
 - The Dockerfiles were initially AI-generated; I added a healthcheck and asked it to generate two separate Docker images so the frontend and backend run in distinct containers.
 - AI doesn’t question or refactor existing code, but “brute forces” its way into a solution even if it can be optimized.
 - Great at generating initial project structure and boilerplate code.
+- Requires understanding of the decision it's making to challenge it when needed.  

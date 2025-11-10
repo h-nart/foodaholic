@@ -27,10 +27,9 @@ docker compose --profile prod up --build -d
    - In a real-world setup, each would typically live in its own repository for clearer ownership, CI/CD, and release management.
 2. Each project runs independently:
    - Backend and frontend can each be built and run on their own.
-   - `docker-compose.yml` orchestrates them together for local/dev and production-like runs.
 3. Separate Docker images:
    - each project has its own `Dockerfile` and is built into its own image. 
-   - Docker Compose brings these images up as separate containers.
+   - Docker Compose brings these images up as separate containers and orchestrates them together for local/dev and production-like runs.
 4. Container Dependency:
    - Backend container does health check using `curl` on `:8080` before it marks itself healthy.
    - Frontend container waits for the backend server to go up.
